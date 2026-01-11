@@ -1,0 +1,6 @@
+from tau2.utils.utils import DATA_DIR
+
+RETAIL_BANKING_DATA_DIR = DATA_DIR / "tau2" / "domains" / "retail_banking_consumers"
+RETAIL_BANKING_DB_PATH = RETAIL_BANKING_DATA_DIR / "db.json"
+RETAIL_BANKING_POLICY_PATH = RETAIL_BANKING_DATA_DIR / "policy.md"
+RETAIL_BANKING_TASK_SET_PATH = RETAIL_BANKING_DATA_DIR / "tasks.json"

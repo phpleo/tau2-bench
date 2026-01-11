@@ -1,0 +1,177 @@
+{
+    "customers": {
+        "cus_01": {
+            "customer_id": "cus_01",
+            "full_name": "Dylan Parker",
+            "email": "dylan.parker@email.com",
+            "phone": "+1-555-0123",
+            "address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001",
+                "country": "USA"
+            },
+            "date_of_birth": "1985-06-15",
+            "account_status": "active",
+            "registration_date": "2020-03-10"
+        },
+        "cus_02": {
+            "customer_id": "cus_02",
+            "full_name": "Sarah Johnson",
+            "email": "sarah.j@email.com",
+            "phone": "+1-555-0456",
+            "address": {
+                "street": "456 Oak Ave",
+                "city": "Los Angeles",
+                "state": "CA",
+                "zip": "90001",
+                "country": "USA"
+            },
+            "date_of_birth": "1992-11-22",
+            "account_status": "active",
+            "registration_date": "2021-07-18"
+        }
+    },
+    "accounts": {
+        "acc_01": {
+            "account_id": "acc_01",
+            "account_number": "07895034807",
+            "account_type": "checking",
+            "customer_id": "cus_01",
+            "balance": 5420.75,
+            "currency": "USD",
+            "status": "active",
+            "opening_date": "2020-03-10",
+            "associated_products": ["fp_01", "fp_03"]
+        },
+        "acc_02": {
+            "account_id": "acc_02",
+            "account_number": "07895034808",
+            "account_type": "savings",
+            "customer_id": "cus_01",
+            "balance": 15000.00,
+            "currency": "USD",
+            "status": "active",
+            "opening_date": "2020-03-10",
+            "interest_rate": 2.5,
+            "associated_products": []
+        },
+        "acc_03": {
+            "account_id": "acc_03",
+            "account_number": "07895034809",
+            "account_type": "checking",
+            "customer_id": "cus_02",
+            "balance": 2150.30,
+            "currency": "USD",
+            "status": "active",
+            "opening_date": "2021-07-18",
+            "associated_products": ["fp_02"]
+        }
+    },
+    "cards": {
+        "fp_01": {
+            "card_id": "fp_01",
+            "customer_id": "cus_01",
+            "account_id": "acc_01",
+            "type": "credit_card",
+            "card_number": "342979928736417",
+            "card_holder_name": "Dylan Parker",
+            "expiration_date": "2027-12-31",
+            "cvv": "123",
+            "currency": "USD",
+            "credit_limit": 10000.0,
+            "available_credit": 7100.0,
+            "current_balance": 2900.0,
+            "interest_rate": 18.99,
+            "minimum_payment": 58.0,
+            "payment_due_date": "2026-02-05",
+            "status": "active",
+            "issue_date": "2020-03-15"
+        },
+        "fp_02": {
+            "card_id": "fp_02",
+            "customer_id": "cus_02",
+            "account_id": "acc_03",
+            "type": "debit_card",
+            "card_number": "450012345678901",
+            "card_holder_name": "Sarah Johnson",
+            "expiration_date": "2028-06-30",
+            "cvv": "456",
+            "currency": "USD",
+            "status": "active",
+            "issue_date": "2021-07-20"
+        },
+        "fp_03": {
+            "card_id": "fp_03",
+            "customer_id": "cus_01",
+            "account_id": "acc_01",
+            "type": "debit_card",
+            "card_number": "450087654321098",
+            "card_holder_name": "Dylan Parker",
+            "expiration_date": "2027-09-30",
+            "cvv": "789",
+            "currency": "USD",
+            "status": "active",
+            "issue_date": "2020-03-15"
+        }
+    },
+    "transactions": {
+        "txn_001": {
+            "transaction_id": "txn_001",
+            "account_id": "acc_01",
+            "card_id": "fp_01",
+            "type": "purchase",
+            "amount": 45.99,
+            "currency": "USD",
+            "merchant": "Amazon",
+            "category": "shopping",
+            "date": "2026-01-08T14:23:00",
+            "status": "completed",
+            "description": "Online purchase"
+        },
+        "txn_002": {
+            "transaction_id": "txn_002",
+            "account_id": "acc_01",
+            "card_id": "fp_03",
+            "type": "withdrawal",
+            "amount": 100.0,
+            "currency": "USD",
+            "merchant": "ATM - Main Street",
+            "category": "cash_withdrawal",
+            "date": "2026-01-09T10:15:00",
+            "status": "completed",
+            "description": "ATM withdrawal"
+        },
+        "txn_003": {
+            "transaction_id": "txn_003",
+            "account_id": "acc_01",
+            "type": "transfer",
+            "amount": 500.0,
+            "currency": "USD",
+            "from_account": "acc_01",
+            "to_account": "acc_02",
+            "date": "2026-01-10T09:30:00",
+            "status": "completed",
+            "description": "Transfer to savings"
+        }
+    },
+    "payment_methods": {
+        "pm_01": {
+            "payment_method_id": "pm_01",
+            "customer_id": "cus_01",
+            "type": "bank_account",
+            "account_number": "07895034807",
+            "routing_number": "021000021",
+            "status": "active"
+        },
+        "pm_02": {
+            "payment_method_id": "pm_02",
+            "customer_id": "cus_02",
+            "type": "bank_account",
+            "account_number": "07895034809",
+            "routing_number": "021000021",
+            "status": "active"
+        }
+    }
+}

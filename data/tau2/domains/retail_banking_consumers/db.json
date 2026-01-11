@@ -1,0 +1,23 @@
+{
+    "customers": {
+        "cus_01": {
+            "full_name": "Dylan Parker"
+        }
+    },
+    "accounts": {
+        "acc_01": {
+            "account_number": "07895034807",
+            "customer_id": "cus_01",
+            "associated_products": ["fp_01"]
+        }
+    },
+    "cards": {
+        "fp_01": {
+            "customer_id": "cus_01",
+            "type": "credit_card",
+            "card_number": "342979928736417",
+            "currency": "USD",
+            "available_credit": 2900.0
+        }
+    }
+}
