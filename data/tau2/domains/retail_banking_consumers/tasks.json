@@ -1,0 +1,88 @@
+[
+  {
+    "id": "check_credit_01",
+    "description": {
+      "purpose": "Test the get_current_available_credit functionality",
+      "notes": "Customer wants to check available credit on their credit card"
+    },
+    "user_scenario": {
+      "persona": "A responsible cardholder who regularly monitors their credit usage",
+      "instructions": "You are a customer who wants to check the available credit on your credit card ending in 6417. Ask the agent to check your available credit."
+    },
+    "ticket": "Customer wants to know how much credit they have available on their card.",
+    "evaluation_criteria": {
+      "actions": [
+        {
+          "action_id": "get_credit_1",
+          "name": "get_current_available_credit",
+          "arguments": {
+            "card_id": "fp_01"
+          },
+          "info": "Check the available credit for the customer's card"
+        }
+      ],
+      "nl_assertions": [
+        "The agent provided the available credit amount",
+        "The agent mentioned the card number (masked)"
+      ]
+    }
+  },
+  {
+    "id": "list_all_cards_01",
+    "description": {
+      "purpose": "Test the list_cards functionality",
+      "notes": "Customer wants to see all their cards"
+    },
+    "user_scenario": {
+      "persona": "An organized customer who wants to review their financial products",
+      "instructions": "You are a customer who wants to see a list of all cards associated with your account. Ask the agent to show you all your cards."
+    },
+    "ticket": "Customer wants to see a list of all cards associated with their account.",
+    "evaluation_criteria": {
+      "actions": [
+        {
+          "action_id": "list_cards_1",
+          "name": "list_cards",
+          "arguments": {
+            "customer_id": "cus_01"
+          },
+          "info": "List all cards for the customer"
+        }
+      ],
+      "nl_assertions": [
+        "The agent provided a list of the customer's cards",
+        "The agent showed card numbers (masked)"
+      ]
+    }
+  },
+  {
+    "id": "lock_card_lost_01",
+    "description": {
+      "purpose": "Test the lock_card functionality for a lost card",
+      "notes": "Customer lost their card and needs to lock it for security"
+    },
+    "user_scenario": {
+      "persona": "A concerned customer who just realized they lost their card",
+      "instructions": "You just realized you lost your credit card and you're worried about unauthorized charges. Ask the agent to lock your credit card immediately for security reasons."
+    },
+    "ticket": "Customer lost their credit card ending in 6417 and wants to lock it for security.",
+    "evaluation_criteria": {
+      "actions": [
+        {
+          "action_id": "lock_card_1",
+          "name": "lock_card",
+          "arguments": {
+            "card_id": "fp_01",
+            "reason": "lost"
+          },
+          "compare_args": ["card_id"],
+          "info": "Lock the customer's lost card"
+        }
+      ],
+      "nl_assertions": [
+        "The agent confirmed the card was locked",
+        "The agent explained that the card cannot be used until unlocked"
+      ]
+    }
+  }
+]
