@@ -1,6 +1,6 @@
 """Toolkit for the retail banking consumers domain."""
 
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from tau2.domains.retail_banking_consumers.data_model import (
     Card,
@@ -53,7 +53,7 @@ class RetailBankingTools(ToolKitBase):
         ]
 
     @is_tool(ToolType.READ)
-    def get_current_available_credit(self, card_id: str) -> Dict[str, any]:
+    def get_current_available_credit(self, card_id: str) -> Dict[str, Any]:
         """
         Get the current available credit for a specific card.
 
@@ -115,7 +115,7 @@ class RetailBankingTools(ToolKitBase):
         return f"Card {masked_card_number} ({card.type}) has been successfully locked. Reason: {reason}. The card can no longer be used for transactions until it is unlocked."
 
     @is_tool(ToolType.READ)
-    def list_cards(self, customer_id: str) -> List[Dict[str, any]]:
+    def list_cards(self, customer_id: str) -> List[Dict[str, Any]]:
         """
         List all cards associated with a customer account.
 

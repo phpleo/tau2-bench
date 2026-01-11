@@ -39,6 +39,15 @@ from tau2.domains.telecom.environment import (
 from tau2.domains.telecom.environment import (
     get_tasks_split as telecom_domain_get_tasks_split,
 )
+from tau2.domains.retail_banking_consumers.environment import (
+    get_environment as retail_banking_consumers_domain_get_environment,
+)
+from tau2.domains.retail_banking_consumers.environment import (
+    get_tasks as retail_banking_consumers_domain_get_tasks,
+)
+from tau2.domains.retail_banking_consumers.environment import (
+    get_tasks_split as retail_banking_consumers_domain_get_tasks_split,
+)
 from tau2.environment.environment import Environment
 from tau2.user.base import BaseUser
 from tau2.user.user_simulator import DummyUser, UserSimulator
@@ -225,6 +234,15 @@ try:
         retail_domain_get_tasks,
         "retail",
         get_task_splits=retail_domain_get_tasks_split,
+    )
+
+    registry.register_domain(
+        retail_banking_consumers_domain_get_environment, "retail-banking-consumers"
+    )
+    registry.register_tasks(
+        retail_banking_consumers_domain_get_tasks,
+        "retail-banking-consumers",
+        get_task_splits=retail_banking_consumers_domain_get_tasks_split,
     )
 
     registry.register_domain(telecom_domain_get_environment_manual_policy, "telecom")
