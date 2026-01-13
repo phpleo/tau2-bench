@@ -13,8 +13,8 @@ def sample_db() -> RetailBankingDB:
     """Create a sample database for testing."""
     return RetailBankingDB(
         customers={
-            "cus_01": Customer(full_name="Dylan Parker"),
-            "cus_02": Customer(full_name="Sarah Johnson"),
+            "cus_01": Customer(full_name="Dylan Parker", customer_login_id="45682409"),
+            "cus_02": Customer(full_name="Sarah Johnson", customer_login_id="87654321"),
         },
         accounts={
             "acc_01": Account(
@@ -51,12 +51,14 @@ class TestCustomer:
     """Test Customer data model."""
 
     def test_customer_creation(self):
-        customer = Customer(full_name="John Doe")
+        customer = Customer(full_name="John Doe", customer_login_id="12345678")
         assert customer.full_name == "John Doe"
+        assert customer.customer_login_id == "12345678"
 
     def test_customer_in_db(self, sample_db: RetailBankingDB):
         assert "cus_01" in sample_db.customers
         assert sample_db.customers["cus_01"].full_name == "Dylan Parker"
+        assert sample_db.customers["cus_01"].customer_login_id == "45682409"
 
 
 class TestAccount:

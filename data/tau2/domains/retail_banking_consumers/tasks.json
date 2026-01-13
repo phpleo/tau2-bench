@@ -1,13 +1,19 @@
 [
   {
-    "id": "check_credit_01",
+    "id": "1",
     "description": {
       "purpose": "Test the get_current_available_credit functionality",
       "notes": "Customer wants to check available credit on their credit card"
     },
     "user_scenario": {
       "persona": "A responsible cardholder who regularly monitors their credit usage",
-      "instructions": "You are a customer who wants to check the available credit on your credit card ending in 6417. Ask the agent to check your available credit."
+      "instructions": {
+        "domain": "retail_banking_consumers",
+        "reason_for_call": "You want to check the available credit on your credit card ending in 6417.",
+        "known_info": "You are Dylan Parker.\nYour customer login ID is 45682409.",
+        "unknown_info": null,
+        "task_instructions": "Ask the agent to check your available credit on your credit card."
+      }
     },
     "ticket": "Customer wants to know how much credit they have available on their card.",
     "evaluation_criteria": {
@@ -28,14 +34,20 @@
     }
   },
   {
-    "id": "list_all_cards_01",
+    "id": "2",
     "description": {
       "purpose": "Test the list_cards functionality",
       "notes": "Customer wants to see all their cards"
     },
     "user_scenario": {
       "persona": "An organized customer who wants to review their financial products",
-      "instructions": "You are a customer who wants to see a list of all cards associated with your account. Ask the agent to show you all your cards."
+      "instructions": {
+        "domain": "retail_banking_consumers",
+        "reason_for_call": "You want to see a list of all cards associated with your account.",
+        "known_info": "You are Dylan Parker.\nYour customer login ID is 45682409.",
+        "unknown_info": null,
+        "task_instructions": "Ask the agent to show you all your cards."
+      }
     },
     "ticket": "Customer wants to see a list of all cards associated with their account.",
     "evaluation_criteria": {
@@ -56,14 +68,20 @@
     }
   },
   {
-    "id": "lock_card_lost_01",
+    "id": "3",
     "description": {
       "purpose": "Test the lock_card functionality for a lost card",
       "notes": "Customer lost their card and needs to lock it for security"
     },
     "user_scenario": {
       "persona": "A concerned customer who just realized they lost their card",
-      "instructions": "You just realized you lost your credit card and you're worried about unauthorized charges. Ask the agent to lock your credit card immediately for security reasons."
+      "instructions": {
+        "domain": "retail_banking_consumers",
+        "reason_for_call": "You just realized you lost your credit card and you're worried about unauthorized charges.",
+        "known_info": "You are Dylan Parker.\nYour customer login ID is 45682409.\nYour credit card ends in 6417.",
+        "unknown_info": null,
+        "task_instructions": "Ask the agent to lock your credit card immediately for security reasons."
+      }
     },
     "ticket": "Customer lost their credit card ending in 6417 and wants to lock it for security.",
     "evaluation_criteria": {

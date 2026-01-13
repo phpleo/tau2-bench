@@ -16,8 +16,8 @@ def retail_banking_db() -> RetailBankingDB:
     """Create a sample retail banking database for testing."""
     return RetailBankingDB(
         customers={
-            "cus_01": Customer(full_name="Dylan Parker"),
-            "cus_02": Customer(full_name="Sarah Johnson"),
+            "cus_01": Customer(full_name="Dylan Parker", customer_login_id="45682409"),
+            "cus_02": Customer(full_name="Sarah Johnson", customer_login_id="87654321"),
         },
         accounts={
             "acc_01": Account(

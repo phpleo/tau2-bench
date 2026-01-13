@@ -53,6 +53,37 @@ class RetailBankingTools(ToolKitBase):
         ]
 
     @is_tool(ToolType.READ)
+    def authenticate_customer(self, customer_login_id: str) -> Dict[str, Any]:
+        """
+        Authenticate a customer using their login ID and retrieve their customer information.
+        This tool should be used at the beginning of the conversation to verify the customer's
+        identity before providing any account information or services.
+
+        Args:
+            customer_login_id: The customer's login ID. Example: '45682409'
+
+        Returns:
+            A dictionary containing the customer information:
+            - customer_id: The internal customer ID
+            - full_name: The customer's full name
+            - customer_login_id: The customer's login ID (for confirmation)
+
+        Raises:
+            ValueError: If the customer login ID is not found.
+        """
+        # Search for the customer by their login ID
+        for customer_id, customer_data in self.db.customers.items():
+            if customer_data.customer_login_id == customer_login_id:
+                return {
+                    "customer_id": customer_id,
+                    "full_name": customer_data.full_name,
+                    "customer_login_id": customer_data.customer_login_id,
+                }
+        
+        # If no customer found, raise an error
+        raise ValueError(f"Customer with login ID {customer_login_id} not found. Please verify the login ID and try again.")
+
+    @is_tool(ToolType.READ)
     def get_current_available_credit(self, card_id: str) -> Dict[str, Any]:
         """
         Get the current available credit for a specific card.
@@ -181,23 +212,23 @@ if __name__ == "__main__":
     db = get_db()
     tools = RetailBankingTools(db)
 
-    print("=== Testing Retail Banking Tools ===\n")
+    # print("=== Testing Retail Banking Tools ===\n")
 
-    # Test list_cards
-    print("1. Listing cards for customer cus_01:")
-    cards = tools.list_cards("cus_01")
-    print(f"   Found {len(cards)} card(s)")
-    for card in cards:
-        print(f"   - {card}")
+    # # Test list_cards
+    # print("1. Listing cards for customer cus_01:")
+    # cards = tools.list_cards("cus_01")
+    # print(f"   Found {len(cards)} card(s)")
+    # for card in cards:
+    #     print(f"   - {card}")
 
-    # Test get_current_available_credit
-    print("\n2. Getting available credit for card fp_01:")
-    credit_info = tools.get_current_available_credit("fp_01")
-    print(f"   {credit_info}")
+    # # Test get_current_available_credit
+    # print("\n2. Getting available credit for card fp_01:")
+    # credit_info = tools.get_current_available_credit("fp_01")
+    # print(f"   {credit_info}")
 
-    # Test lock_card
-    print("\n3. Locking card fp_01:")
-    result = tools.lock_card("fp_01", "customer_request")
-    print(f"   {result}")
+    # # Test lock_card
+    # print("\n3. Locking card fp_01:")
+    # result = tools.lock_card("fp_01", "customer_request")
+    # print(f"   {result}")
 
-    print("\n=== All tests completed ===")
+    # print("\n=== All tests completed ===")

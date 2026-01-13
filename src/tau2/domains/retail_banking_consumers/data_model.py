@@ -10,6 +10,7 @@ class Customer(BaseModel):
     """Represents a bank customer with their personal information"""
 
     full_name: str = Field(description="Customer's full name")
+    customer_login_id: str = Field(description="Customer's login ID for authentication")
 
 
 class Account(BaseModel):

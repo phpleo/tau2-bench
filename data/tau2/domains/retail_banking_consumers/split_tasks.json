@@ -1,7 +1,7 @@
 {
   "base": [
-    "check_credit_01",
-    "list_all_cards_01",
-    "lock_card_lost_01"
+    "1",
+    "2",
+    "3"
   ]
 }
