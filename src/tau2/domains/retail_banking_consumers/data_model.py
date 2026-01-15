@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Literal
+from typing import Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -24,6 +24,14 @@ class Account(BaseModel):
         default_factory=list,
         description="List of product IDs (cards, loans, etc.) associated with this account",
     )
+    routing_number_ach: str | None = Field(
+        default=None,
+        description="Routing number for electronic transfers, payments, direct deposits and ordering checks"
+    )
+    routing_number_wire: str | None = Field(
+        default=None,
+        description="Routing number for U.S. wire transfers"
+    )
 
 
 CardType = Literal["credit_card", "debit_card"]
@@ -41,6 +49,15 @@ class Card(BaseModel):
     )
 
 
+class SessionData(BaseModel):
+    """Represents an active customer session (e.g., from mobile app login)"""
+
+    customer_id: str = Field(description="ID of the authenticated customer")
+    customer_login_id: str = Field(description="Login ID of the authenticated customer")
+    full_name: str = Field(description="Full name of the authenticated customer")
+    authenticated: bool = Field(default=True, description="Whether the customer is authenticated")
+
+
 class RetailBankingDB(DB):
     """Database containing all retail banking data including customers, accounts, and cards"""
 
@@ -52,6 +69,10 @@ class RetailBankingDB(DB):
     )
     cards: Dict[str, Card] = Field(
         description="Dictionary of all cards indexed by card ID"
+    )
+    session: Optional[SessionData] = Field(
+        default=None,
+        description="Current session data for an authenticated customer (if logged in via app)"
     )
 
     def get_statistics(self) -> dict[str, Any]:

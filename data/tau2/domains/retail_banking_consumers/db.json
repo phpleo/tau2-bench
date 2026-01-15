@@ -9,7 +9,9 @@
         "acc_01": {
             "account_number": "07895034807",
             "customer_id": "cus_01",
-            "associated_products": ["fp_01"]
+            "associated_products": ["fp_01"],
+            "routing_number_ach": "000111234",
+            "routing_number_wire": "101010123"
         }
     },
     "cards": {

@@ -1,6 +1,6 @@
 """Toolkit for the retail banking consumers domain."""
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from tau2.domains.retail_banking_consumers.data_model import (
     Card,
@@ -16,6 +16,16 @@ class RetailBankingTools(ToolKitBase):
 
     def __init__(self, db: RetailBankingDB) -> None:
         super().__init__(db)
+
+    def _get_session_customer_id(self) -> Optional[str]:
+        """Get the customer ID from the active session if available.
+
+        Returns:
+            The customer ID from the session, or None if no session is active.
+        """
+        if self.db.session and self.db.session.authenticated:
+            return self.db.session.customer_id
+        return None
 
     def _get_card(self, card_id: str) -> Card:
         """Get a card from the database.
@@ -51,6 +61,73 @@ class RetailBankingTools(ToolKitBase):
         return [
             card for card in self.db.cards.values() if card.customer_id == customer_id
         ]
+
+    def _get_account(self, account_id: str):
+        """Get an account from the database.
+
+        Args:
+            account_id: The account ID.
+
+        Returns:
+            The account.
+
+        Raises:
+            ValueError: If the account is not found.
+        """
+        if account_id not in self.db.accounts:
+            raise ValueError(f"Account {account_id} not found")
+        return self.db.accounts[account_id]
+
+    def _get_customer_accounts(self, customer_id: str) -> List[str]:
+        """Get all account IDs belonging to a customer.
+
+        Args:
+            customer_id: The customer ID.
+
+        Returns:
+            List of account IDs belonging to the customer.
+
+        Raises:
+            ValueError: If the customer is not found.
+        """
+        if customer_id not in self.db.customers:
+            raise ValueError(f"Customer {customer_id} not found")
+
+        return [
+            account_id
+            for account_id, account in self.db.accounts.items()
+            if account.customer_id == customer_id
+        ]
+
+    @is_tool(ToolType.READ)
+    def get_session_info(self) -> Dict[str, Any]:
+        """
+        Get the current session information for the logged-in customer.
+        This tool is only available when the customer is already authenticated
+        (e.g., logged into the mobile app or web portal).
+
+        Returns:
+            A dictionary containing the session information:
+            - customer_id: The internal customer ID
+            - full_name: The customer's full name
+            - first_name: The customer's first name
+            - authenticated: Whether the customer is authenticated
+
+        Raises:
+            ValueError: If no active session exists.
+        """
+        if not self.db.session or not self.db.session.authenticated:
+            raise ValueError("No active session found. Customer must be authenticated first.")
+
+        # Extract first name from full name
+        first_name = self.db.session.full_name.split()[0]
+
+        return {
+            "customer_id": self.db.session.customer_id,
+            "full_name": self.db.session.full_name,
+            "first_name": first_name,
+            "authenticated": self.db.session.authenticated,
+        }
 
     @is_tool(ToolType.READ)
     def authenticate_customer(self, customer_login_id: str) -> Dict[str, Any]:
@@ -184,6 +261,55 @@ class RetailBankingTools(ToolKitBase):
                 )
 
         return result
+
+    @is_tool(ToolType.READ)
+    def get_routing_numbers(self, account_id: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Get the routing numbers for a customer's deposit account.
+        Routing numbers are used for different types of transactions.
+
+        Args:
+            account_id: The ID of the account. If not provided and the customer is logged in,
+                       the primary account for the logged-in customer will be used. Example: 'acc_01'
+
+        Returns:
+            A dictionary containing the routing numbers:
+            - account_number: The account number (masked)
+            - routing_number_ach: Routing number for electronic transfers, payments, direct deposits and ordering checks
+            - routing_number_wire: Routing number for U.S. wire transfers
+
+        Raises:
+            ValueError: If the account is not found or does not have routing numbers.
+        """
+        # If no account_id provided, try to get it from the session
+        if account_id is None:
+            session_customer_id = self._get_session_customer_id()
+            if session_customer_id is None:
+                raise ValueError("No account_id provided and no active session found. Please provide an account_id or authenticate first.")
+
+            # Get the customer's accounts
+            account_ids = self._get_customer_accounts(session_customer_id)
+            if not account_ids:
+                raise ValueError(f"No accounts found for customer {session_customer_id}")
+
+            # Use the first account (primary account)
+            account_id = account_ids[0]
+
+        account = self._get_account(account_id)
+
+        # Mask the account number, showing only last 4 digits
+        masked_account_number = f"****{account.account_number[-4:]}"
+
+        if not account.routing_number_ach or not account.routing_number_wire:
+            raise ValueError(f"Routing numbers not available for account {account_id}")
+
+        return {
+            "account_number": masked_account_number,
+            "routing_number_ach": account.routing_number_ach,
+            "routing_number_ach_purpose": "For electronic transfers, payments, direct deposits and ordering checks",
+            "routing_number_wire": account.routing_number_wire,
+            "routing_number_wire_purpose": "For U.S. wire transfers",
+        }
 
     @is_tool(ToolType.GENERIC)
     def transfer_to_human_agent(self, summary: str) -> str:
